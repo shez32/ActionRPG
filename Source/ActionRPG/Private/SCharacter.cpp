@@ -75,12 +75,19 @@ void ASCharacter::AimDownSightPressed()
 {
 	isAiming = true;
 	PlayAnimMontage(DaggerThrowReadyMontage, 1, NAME_None);
+	
+	GetCharacterMovement()->bOrientRotationToMovement = false;
+	bUseControllerRotationYaw = true;
+	
 }
 
 void ASCharacter::AimDownSightReleased()
 {
 	isAiming = false;
 	PlayAnimMontage(DaggerThrowCancelMontage, 1, NAME_None);
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	bUseControllerRotationYaw = false;
 }
 
 void ASCharacter::SpawnProjectileAttack()
@@ -91,7 +98,7 @@ void ASCharacter::SpawnProjectileAttack()
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	
-	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, AimTransform, SpawnParams);
 }
 
 // Called every frame

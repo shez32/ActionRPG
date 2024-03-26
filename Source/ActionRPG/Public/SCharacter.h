@@ -38,6 +38,9 @@ protected:
 	float ZoomSpeed = 5.0f;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
 	float AlphaADS = 0.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Dagger")
+	FTransform AimTransform;
 	
 public:
 	// Sets default values for this character's properties
