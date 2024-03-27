@@ -20,11 +20,10 @@ ASCharacter::ASCharacter()
 	SpringArmComp->SocketOffset = FVector(0, 50, 0);
 	
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+	bUseControllerRotationYaw = false; 
 	
 	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComp->SetupAttachment(SpringArmComp);
-
-	bUseControllerRotationYaw = false; 
 }
 
 // Called when the game starts or when spawned
@@ -57,8 +56,7 @@ void ASCharacter::MoveRight(float value)
 
 void ASCharacter::JumpCharacter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Orange, "JumpCalled");
-
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Orange, "JumpCalled");
 	Jump();
 }
 

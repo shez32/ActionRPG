@@ -35,6 +35,5 @@ void ASDaggerProjectile::BeginPlay()
 void ASDaggerProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
