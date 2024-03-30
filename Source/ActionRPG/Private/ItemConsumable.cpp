@@ -3,6 +3,9 @@
 
 #include "ItemConsumable.h"
 
+#include "SCharacter.h"
+#include "Kismet/KismetSystemLibrary.h"
+
 // Sets default values
 AItemConsumable::AItemConsumable()
 {
@@ -20,6 +23,11 @@ AItemConsumable::AItemConsumable()
 	Glow_Light = CreateDefaultSubobject<UPointLightComponent>("Glow_Light");
 	Glow_Light->SetupAttachment(SM_Highlight);
 
+	SphereCol = CreateDefaultSubobject<USphereComponent>("SphereCol");
+	SphereCol->SetupAttachment(RootComponent);
+	SphereCol->InitSphereRadius(7.0f);
+	SphereCol->OnComponentBeginOverlap.AddDynamic(this, &AItemConsumable::AItemConsumable::OnActorOverlap);
+	
 }
 
 // Called when the game starts or when spawned
@@ -37,6 +45,34 @@ void AItemConsumable::Tick(float DeltaTime)
 }
 
 void AItemConsumable::Interact_Implementation(APawn* InstigatorPawn)
+{
+	//FTimerHandle UnusedHandle;
+	
+	SM_Item->SetSimulatePhysics(false);
+	SM_Item->SetCollisionProfileName("NoCollision");
+
+	FLatentActionInfo defaultLatentInfo;
+	defaultLatentInfo.CallbackTarget = this;
+
+	UKismetSystemLibrary::MoveComponentTo(SM_Item, InstigatorPawn->GetActorLocation(), FRotator::ZeroRotator,
+		true, false, 0.7f, false, EMoveComponentAction::Type::Move , defaultLatentInfo);
+
+	//GetWorldTimerManager().SetTimer(UnusedHandle, this, &AItemConsumable::DestroyItem, 0.7f, false, -1.0f);
+
+}
+
+void AItemConsumable::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool Sweep, const FHitResult& Hit)
+{
+	ASCharacter* Player = Cast<ASCharacter>(OtherActor);
+
+	if(Player)
+	{
+		DestroyItem();
+	}
+}
+
+
+void AItemConsumable::DestroyItem()
 {
 	Destroy();
 }

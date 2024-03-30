@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "SGameplayInterface.h"
 #include "Components/PointLightComponent.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "ItemConsumable.generated.h"
 
@@ -23,6 +24,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void DestroyItem();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	USphereComponent* SphereCol;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* SM_Item;
 
@@ -31,6 +37,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UPointLightComponent* Glow_Light;
+
+	UFUNCTION()
+	void OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool Sweep, const FHitResult& Hit);
 
 public:	
 	// Called every frame

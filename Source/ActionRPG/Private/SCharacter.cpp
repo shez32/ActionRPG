@@ -24,6 +24,8 @@ ASCharacter::ASCharacter()
 	
 	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComp->SetupAttachment(SpringArmComp);
+
+	InteractComp = CreateDefaultSubobject<USInteractComponent>("InteractComp");
 }
 
 // Called when the game starts or when spawned
@@ -63,8 +65,9 @@ void ASCharacter::JumpCharacter()
 
 void ASCharacter::PrimaryAttack()
 {
-	if(isAiming)
+	if(isAiming && !isPlayingAnyMontage)
 	{
+		isPlayingAnyMontage = true;
 		PlayAnimMontage(DaggerThrowMontage, 1, NAME_None);
 	}
 }
@@ -99,13 +102,22 @@ void ASCharacter::SpawnProjectileAttack()
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, AimTransform, SpawnParams);
 }
 
+void ASCharacter::PrimaryInteract()
+{
+	if(InteractComp)
+	{
+		InteractComp->Interact();
+	}
+}
+
+
 // Called every frame
 void ASCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 	float InterpZoomSpeed = ZoomSpeed * DeltaTime;
-
+	
 	if(isAiming)
 	{
 		AlphaADS = FMath::Clamp(AlphaADS + InterpZoomSpeed, 0.0f, 1.0f);
@@ -134,6 +146,8 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("DaggerThrow", IE_Pressed, this, &ASCharacter::PrimaryAttack);
 	PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &ASCharacter::AimDownSightPressed);
 	PlayerInputComponent->BindAction("Aim", IE_Released, this, &ASCharacter::AimDownSightReleased);
+
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &ASCharacter::PrimaryInteract);
 	
 }
 

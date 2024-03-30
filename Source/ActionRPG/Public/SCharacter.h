@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SInteractComponent.h"
 #include "GameFramework/Character.h"
 #include "SCharacter.generated.h"
 
@@ -51,12 +52,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool isAiming = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool isPlayingAnyMontage = false;
+
 protected:
 	// Called when the game starts or when spawned
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USpringArmComponent* SpringArmComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UCameraComponent* CameraComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	USInteractComponent* InteractComp;
 	
 	virtual void BeginPlay() override;
 
@@ -69,6 +75,8 @@ protected:
 	void AimDownSightReleased();
 
 	void JumpCharacter();
+
+	void PrimaryInteract();
 
 public:	
 	// Called every frame
