@@ -86,7 +86,7 @@ bool USInteractComponent::isActorInSight(AActor* actorInQuestion)
 	//FString outputStr = FString::SanitizeFloat(result);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.0f,FColor::White, *outputStr);
 
-	if(FMath::IsNearlyEqual(result, 1.0, 0.35))
+	if(FMath::IsNearlyEqual(result, 1.0, 0.45))
 	{
 		return true;
 	}

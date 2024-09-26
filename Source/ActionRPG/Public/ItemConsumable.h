@@ -24,8 +24,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void DestroyItem();
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USphereComponent* SphereCol;
 
@@ -38,11 +36,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UPointLightComponent* Glow_Light;
 
-	UFUNCTION()
-	void OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool Sweep, const FHitResult& Hit);
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };
